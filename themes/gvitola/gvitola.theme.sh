@@ -22,30 +22,30 @@
 #
 
 # Warning of type of priviledges has the user
-if [ "$USERNAME" = "root" ]; then CARETCOLOR="red"; else CARETCOLOR="white"; fi
+if [ "$USERNAME" = "root" ]; then current_user="${_omb_prompt_red}"; else current_user="${_omb_prompt_white}"; fi
 
 SCM_NONE_CHAR=''
 SCM_THEME_PROMPT_DIRTY=" ${_omb_prompt_brown}✗"
 SCM_THEME_PROMPT_CLEAN=""
-SCM_THEME_PROMPT_PREFIX="${_omb_prompt_green}|"
-SCM_THEME_PROMPT_SUFFIX="${_omb_prompt_green}|"
+SCM_THEME_PROMPT_PREFIX="${_omb_prompt_bold_green}["
+SCM_THEME_PROMPT_SUFFIX="${_omb_prompt_bold_green}]"
 SCM_GIT_SHOW_MINIMAL_INFO=true
 
-CLOCK_THEME_PROMPT_PREFIX=''
-CLOCK_THEME_PROMPT_SUFFIX=' '
+CLOCK_THEME_PROMPT_PREFIX="${_omb_prompt_normal}["
+CLOCK_THEME_PROMPT_SUFFIX="${_omb_prompt_normal}]"
 THEME_SHOW_CLOCK=${THEME_SHOW_CLOCK:-"true"}
-THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$_omb_prompt_bold_navy"}
+THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$_omb_prompt_bold_teal"}
 THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%I:%M:%S"}
 
 OMB_PROMPT_VIRTUALENV_FORMAT='(%s) '
-OMB_PROMPT_SHOW_PYTHON_VENV=${OMB_PROMPT_SHOW_PYTHON_VENV:=true}
+ OMB_PROMPT_SHOW_PYTHON_VENV=${OMB_PROMPT_SHOW_PYTHON_VENV:=true}
 
 function _omb_theme_PROMPT_COMMAND() {
     # This needs to be first to save last command return code
     local RC="$?"
 
     #local hostname="${_omb_prompt_bold_gray}\u@\h"
-    local hostname="${CARETCOLOR}\u@\h"
+    local hostname="${current_user}[${_omb_prompt_bold_teal}\u${current_user}::${_omb_prompt_yellow}\h${current_user}]"
     local python_venv; _omb_prompt_get_python_venv
     python_venv=$_omb_prompt_white$python_venv
 
@@ -59,7 +59,8 @@ function _omb_theme_PROMPT_COMMAND() {
     # Append new history lines to history file
     history -a
 
-    PS1="$(clock_prompt)$python_venv${hostname} ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}→ ${_omb_prompt_normal}"
+#   PS1="$(clock_prompt)$python_venv${hostname} ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}→ ${_omb_prompt_normal}"
+    PS1="$(clock_prompt)$python_venv${hostname}${current_user}[${_omb_prompt_bold_teal}\W${current_user}]$(scm_prompt_char_info)${ret_status} => ${_omb_prompt_normal}"
 }
 
 _omb_util_add_prompt_command _omb_theme_PROMPT_COMMAND
