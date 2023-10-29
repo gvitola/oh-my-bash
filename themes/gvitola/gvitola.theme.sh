@@ -2,23 +2,23 @@
 #
 # One line prompt showing the following configurable information
 # for git:
-# time (virtual_env) username@hostname pwd git_char|git_branch git_dirty_status|→
+# [time] (virtual_env) [username::hostname] [pwd] git_char[git_branch git_dirty_status] =>
 #
-# The → arrow shows the exit status of the last command:
+# The => arrow shows the exit status of the last command:
 # - bold green: 0 exit status
 # - bold red: non-zero exit status
 #
 # Example outside git repo:
-# 07:45:05 user@host ~ →
+# [07:45:05][user::host][~] =>
 #
 # Example inside clean git repo:
-# 07:45:05 user@host .oh-my-bash ±|master|→
+# [07:45:05][user::host][.oh-my-bash]<>[master] =>
 #
 # Example inside dirty git repo:
-# 07:45:05 user@host .oh-my-bash ±|master ✗|→
+# [07:45:05][user::host][.oh-my-bash]<>[master ✗] =>
 #
 # Example with virtual environment:
-# 07:45:05 (venv) user@host ~ →
+# [07:45:05] (venv) [user::host][~] =>
 #
 
 # Warning of type of priviledges has the user
@@ -38,13 +38,13 @@ THEME_CLOCK_COLOR=${THEME_CLOCK_COLOR:-"$_omb_prompt_bold_teal"}
 THEME_CLOCK_FORMAT=${THEME_CLOCK_FORMAT:-"%I:%M:%S"}
 
 OMB_PROMPT_VIRTUALENV_FORMAT='(%s) '
- OMB_PROMPT_SHOW_PYTHON_VENV=${OMB_PROMPT_SHOW_PYTHON_VENV:=true}
+OMB_PROMPT_SHOW_PYTHON_VENV=${OMB_PROMPT_SHOW_PYTHON_VENV:=true}
 
 function _omb_theme_PROMPT_COMMAND() {
     # This needs to be first to save last command return code
     local RC="$?"
 
-    #local hostname="${_omb_prompt_bold_gray}\u@\h"
+    # Set user::hostname into hostname local varible
     local hostname="${current_user}[${_omb_prompt_bold_teal}\u${current_user}::${_omb_prompt_yellow}\h${current_user}]"
     local python_venv; _omb_prompt_get_python_venv
     python_venv=$_omb_prompt_white$python_venv
@@ -59,7 +59,7 @@ function _omb_theme_PROMPT_COMMAND() {
     # Append new history lines to history file
     history -a
 
-#   PS1="$(clock_prompt)$python_venv${hostname} ${_omb_prompt_bold_teal}\W $(scm_prompt_char_info)${ret_status}→ ${_omb_prompt_normal}"
+    # Set the final prompt configuration
     PS1="$(clock_prompt)$python_venv${hostname}${current_user}[${_omb_prompt_bold_teal}\W${current_user}]$(scm_prompt_char_info)${ret_status} => ${_omb_prompt_normal}"
 }
 
