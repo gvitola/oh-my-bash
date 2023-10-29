@@ -288,3 +288,5 @@ Thank you so much!
 
 Oh My Bash is derived from [Oh My Zsh](https://github.com/ohmyzsh/ohmyzsh).
 Oh My Bash is released under the [MIT license](LICENSE.md).
+
+This versión of Oh My Bash is derived from [Oh My Bash](https://github.com/ohmybash/ohmybash) to keep the PROMPT theme we like to work with. Any one can work with this versión according to the previous licence term but it is highly recommended to use the original [Oh My Bash](https://github.com/ohmybash/ohmybash) which it is most updated.
